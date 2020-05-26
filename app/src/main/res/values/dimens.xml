@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_record_header_image_height">200dp</dimen>
+    <dimen name="dimen_record_text_primary">15sp</dimen>
+    <dimen name="dimen_timer_size">36sp</dimen>
+    <dimen name="dimen_record_status_size">16sp</dimen>
+</resources>

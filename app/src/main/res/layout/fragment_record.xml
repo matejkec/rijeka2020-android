@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".fragments.RecordFragment">
+
+        <ImageView
+            android:id="@+id/image_record_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_record_header_image_height"
+            android:contentDescription="@string/desc_rijeka2020"
+            android:src="@drawable/home_rijeka2020"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_flag_cro"
+            android:layout_width="64sp"
+            android:layout_height="32sp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/desc_flag_cro"
+            android:src="@drawable/cro"
+            app:layout_constraintBottom_toBottomOf="@+id/text_press_cro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_press_cro" />
+
+        <TextView
+            android:id="@+id/text_press_cro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/open_sans"
+            android:gravity="center"
+            android:text="@string/msg_press_mic_cro"
+            android:textColor="@color/colorDarkBlue"
+            android:textSize="@dimen/dimen_record_text_primary"
+            app:fontFamily="@font/open_sans_semibold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_flag_cro"
+            app:layout_constraintTop_toBottomOf="@+id/image_record_header"
+            tools:ignore="MissingConstraints"
+            tools:targetApi="jelly_bean" />
+
+        <ImageView
+            android:id="@+id/image_flag_en"
+            android:layout_width="64sp"
+            android:layout_height="32dp"
+            android:contentDescription="@string/desc_flag_en"
+            android:src="@drawable/en"
+            app:layout_constraintBottom_toBottomOf="@+id/text_press_en"
+            app:layout_constraintStart_toStartOf="@+id/image_flag_cro"
+            app:layout_constraintTop_toTopOf="@+id/text_press_en" />
+
+        <TextView
+            android:id="@+id/text_press_en"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/open_sans"
+            android:gravity="center"
+            android:text="@string/msg_press_mic_en"
+            android:textColor="@color/colorDarkBlue"
+            android:textSize="@dimen/dimen_record_text_primary"
+            app:fontFamily="@font/open_sans_semibold"
+            app:layout_constraintEnd_toEndOf="@+id/text_press_cro"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_flag_en"
+            app:layout_constraintTop_toBottomOf="@+id/text_press_cro"
+            tools:targetApi="jelly_bean" />
+
+        <TextView
+            android:id="@+id/text_record_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/open_sans"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="@dimen/dimen_record_status_size"
+            android:textStyle="italic"
+            app:fontFamily="@font/open_sans_semibold"
+            app:layout_constraintBottom_toTopOf="@+id/text_record_timer"
+            app:layout_constraintEnd_toEndOf="@+id/text_press_en"
+            app:layout_constraintStart_toStartOf="@+id/image_flag_en"
+            app:layout_constraintTop_toBottomOf="@+id/text_press_en"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/text_record_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="16dp"
+            android:gravity=""
+            android:textColor="@color/colorDarkBlue"
+            android:textSize="@dimen/dimen_timer_size"
+            app:layout_constraintBottom_toTopOf="@+id/btn_record"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:background="@android:color/white"
+            android:src="@drawable/record_btn_stopped"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_record_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:scaleX="1.15"
+            android:scaleY="1.15"
+            android:src="@drawable/recorder_list_btn"
+            app:layout_constraintBottom_toBottomOf="@id/btn_record"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_record"
+            app:layout_constraintTop_toTopOf="@id/btn_record" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

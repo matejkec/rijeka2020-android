@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="max_audio_recording_time">5000</integer>
+    <integer name="min_audio_recording_time">1000</integer>
+    <integer name="audio_recording_delay">150</integer>
+    <integer name="onscreen_text_time">1000</integer>
+
+    <integer name="anim_disappear_duration">700</integer>
+    <integer name="anim_scale_duration">300</integer>
+    <integer name="anim_fade_in_duration">250</integer>
+    <integer name="anim_fade_out_duration">200</integer>
+    <integer name="anim_slide_in_duration">250</integer>
+    <integer name="anim_slide_out_duration">200</integer>
+
+</resources>

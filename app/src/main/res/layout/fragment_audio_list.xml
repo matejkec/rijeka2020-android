@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".fragments.AudioListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/view_audio_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="70sp" />
+
+    <TextView
+        android:id="@+id/text_no_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="70dp"
+        android:fontFamily="@font/open_sans_semibold"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:text="@string/no_content"
+        android:textSize="16sp" />
+
+    <include layout="@layout/player" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
