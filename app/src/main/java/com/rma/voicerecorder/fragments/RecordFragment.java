@@ -33,7 +33,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecordFragment extends Fragment implements View.OnTouchListener {
+public class RecordFragment extends Fragment implements View.OnTouchListener{
     private NavController navController;
     private Handler handler = new Handler();
 
@@ -71,13 +71,14 @@ public class RecordFragment extends Fragment implements View.OnTouchListener {
         ImageButton listButton = view.findViewById(R.id.btn_record_list);
         recordButton = view.findViewById(R.id.btn_record);
         recordStatus = view.findViewById(R.id.text_record_status);
-        TextView timerTV = view.findViewById(R.id.text_record_timer);
-        timer = new Timer(timerTV, maxAudioRecordingTimeMs);
 
         maxAudioRecordingTimeMs = getResources().getInteger(R.integer.max_audio_recording_time);
         minAudioRecordingTimeMs = getResources().getInteger(R.integer.min_audio_recording_time);
         audioRecordingDelayMs = getResources().getInteger(R.integer.audio_recording_delay);
         onscreenTextTime = getResources().getInteger(R.integer.onscreen_text_time);
+
+        TextView timerTV = view.findViewById(R.id.text_record_timer);
+        timer = new Timer(timerTV, maxAudioRecordingTimeMs);
 
         recordButton.setOnTouchListener(this);
         listButton.setOnClickListener(new View.OnClickListener() {

@@ -1,16 +1,19 @@
 package com.rma.voicerecorder.fragments;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,8 +27,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.rma.voicerecorder.adapters.AudioListAdapter;
 import com.rma.voicerecorder.R;
 import com.rma.voicerecorder.models.VoiceRecord;
@@ -46,6 +51,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     private static final int NO_POSITION = -1;
 
     private BottomSheetBehavior bottomSheetBehavior;
+    private RecyclerView audioListRecyclerView;
     private SharedPreferences sharedPreferences;
 
     private Drawable drawablePlay, drawablePause;
@@ -74,7 +80,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -110,7 +116,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
 
         voiceRecords = getVoiceRecords();
         audioListAdapter = new AudioListAdapter(this.getContext(), voiceRecords, this);
-        RecyclerView audioListRecyclerView = view.findViewById(R.id.view_audio_list);
+        audioListRecyclerView = view.findViewById(R.id.view_audio_list);
         audioListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         audioListRecyclerView.setAdapter(audioListAdapter);
         textNoContent = view.findViewById(R.id.text_no_content);
@@ -118,6 +124,21 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
 
         drawablePause = getActivity().getResources().getDrawable(R.drawable.player_pause_btn, null);
         drawablePlay = getActivity().getResources().getDrawable(R.drawable.player_play_btn, null);
+
+        // Handling back button
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if(bottomSheetBehavior != null){
+                    if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        return;
+                    }
+                }
+                Navigation.findNavController(view).navigateUp();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
     }
 
     @Override
@@ -132,7 +153,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_previous:
-                if(mediaPlayer != null){
+                if (mediaPlayer != null) {
                     stopAudio();
                     lastPosition = (lastPosition == 0) ? audioListAdapter.getItemCount() - 1 : lastPosition - 1;
                     playAudio(voiceRecords.get(lastPosition));
@@ -148,7 +169,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
                 }
                 break;
             case R.id.btn_next:
-                if(mediaPlayer != null){
+                if (mediaPlayer != null) {
                     stopAudio();
                     lastPosition = (lastPosition + 1) % audioListAdapter.getItemCount();
                     playAudio(voiceRecords.get(lastPosition));
@@ -216,6 +237,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
         });
 
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        audioListRecyclerView.setNestedScrollingEnabled(false);
         btnPlay.setImageDrawable(drawablePause);
         textPlayerStatus.setText(R.string.mp_playing);
         textPlayerFileName.setText(fileToPlay.getName());
@@ -334,16 +356,32 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
         }
 
         @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.menu_delete:
-                    if (mediaPlayer != null) {
-                        stopAudio();
-                    }
-                    deleteAudioFiles(audioListAdapter.getSelectedItems());
-                    mode.finish();
+                    new MaterialAlertDialogBuilder(getContext())
+                            .setMessage(getResources().getString(R.string.dialog_delete_msg))
+                            .setNegativeButton(getResources().getString(R.string.dialog_no), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .setPositiveButton(getResources().getString(R.string.dialog_yes), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (mediaPlayer != null) {
+                                        stopAudio();
+                                    }
+                                    deleteAudioFiles(audioListAdapter.getSelectedItems());
+                                    Toast.makeText(getContext(), getResources().getString(R.string.toast_deleted_msg), Toast.LENGTH_SHORT).show();
+                                    mode.finish();
+                                }
+                            })
+                            .show();
                     return true;
                 case R.id.menu_upload:
+                    uploadAudioFiles(new ArrayList<Integer>());
                     // TODO: actually upload items
                     mode.finish();
                     return true;
