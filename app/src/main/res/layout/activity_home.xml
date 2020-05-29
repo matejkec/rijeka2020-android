@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     tools:context=".activities.AppActivity">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"

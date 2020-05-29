@@ -1,15 +1,14 @@
 <resources>
 
-    <string name="app_name">Rijeka 2020</string>
-    <string name="desc_rijeka2020">Rijeka 2020</string>
-    <string name="msg_info">EPK – Europska prijestolnica kulture, ugledna je titula i europski kulturni projekt koji u Rijeci uključuje obnovu zgrada kulture i bogat cjelogodišnji  kulturno umjetnički program</string>
+    <string name="app_name" translatable="false">Rijeka 2020</string>
+    <string name="msg_info">ECoC – European Capital of Culture, a coveted title and European cultural project that encompasses the renovation of cultural buildings and an extensive year-round cultural and art programme.</string>
 
     <string name="record_status_recording">Recording</string>
     <string name="record_status_file_saved">File saved</string>
     <string name="record_status_short_voice">The voice record is too short</string>
 
     <string name="no_content">No content</string>
-    <string name="mp_title">Media Player</string>
+    <string name="mp_title" translatable="false">Media Player</string>
     <string name="mp_filename">File name</string>
     <string name="mp_not_playing">Not playing</string>
     <string name="mp_playing">Playing</string>
