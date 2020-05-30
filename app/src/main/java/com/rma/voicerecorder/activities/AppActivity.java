@@ -19,11 +19,11 @@ public class AppActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.custom_toolbar);
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
-    }
+    }*/
 }
 

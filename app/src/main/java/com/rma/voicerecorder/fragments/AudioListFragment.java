@@ -340,6 +340,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     }
 
     private void uploadAudioFiles(List<Integer> positions) {
+        String upLoadServerUri = "http://localhost:80/example/upload.php";
 
     }
 

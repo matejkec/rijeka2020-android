@@ -2,8 +2,7 @@
 <resources>
     <string name="msg_info">EPK – Europska prijestolnica kulture, ugledna je titula i europski kulturni projekt koji u Rijeci uključuje obnovu zgrada kulture i bogat cjelogodišnji kulturno umjetnički program</string>
     <string name="record_status_recording">Snimanje</string>
-    <string name="record_status_file_saved">Datoteka spremljena</string>
-    <string name="record_status_short_voice">Zvučni zapis je pre kratak</string>
+    <string name="record_status_file_saved">Spremljeno</string>
     <string name="no_content">Nema sadržaja</string>
     <string name="mp_filename">Naziv datoteke</string>
     <string name="mp_not_playing">Ne reproducira se</string>

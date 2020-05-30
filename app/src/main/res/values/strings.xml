@@ -4,8 +4,7 @@
     <string name="msg_info">ECoC – European Capital of Culture, a coveted title and European cultural project that encompasses the renovation of cultural buildings and an extensive year-round cultural and art programme.</string>
 
     <string name="record_status_recording">Recording</string>
-    <string name="record_status_file_saved">File saved</string>
-    <string name="record_status_short_voice">The voice record is too short</string>
+    <string name="record_status_file_saved">Saved</string>
 
     <string name="no_content">No content</string>
     <string name="mp_title" translatable="false">Media Player</string>
