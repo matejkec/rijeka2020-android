@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class AudioListAdapter extends SelectableAdapter<AudioListAdapter.AudioViewHolder> {
     private ArrayList<VoiceRecord> voiceRecords;
@@ -40,7 +41,7 @@ public class AudioListAdapter extends SelectableAdapter<AudioListAdapter.AudioVi
     public void onBindViewHolder(@NonNull AudioViewHolder holder, int position) {
         final VoiceRecord voiceRecord = voiceRecords.get(position);
         holder.listTitle.setText(voiceRecord.getFileName());
-        holder.listDate.setText(voiceRecord.getTimeAgo());
+        holder.listDate.setText(voiceRecord.getTimeAgo(Locale.getDefault().getLanguage()));
         if (voiceRecord.isPlaying()) {
             holder.isPlayingImage.setVisibility(View.VISIBLE);
         } else {
@@ -171,7 +172,6 @@ public class AudioListAdapter extends SelectableAdapter<AudioListAdapter.AudioVi
 
     public interface ItemClickListener {
         void onItemClicked(VoiceRecord voiceRecord, int position);
-
         boolean onItemLongClicked(int position);
     }
 }

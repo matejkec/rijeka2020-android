@@ -30,8 +30,8 @@ public class VoiceRecord {
         return file.getName();
     }
 
-    public String getTimeAgo() {
-        return new TimeAgo().getTimeAgo(file.lastModified());
+    public String getTimeAgo(String language) {
+        return new TimeAgo(language).getTimeAgo(file.lastModified());
     }
 
     public String getStatus() {

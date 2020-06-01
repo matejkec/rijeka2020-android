@@ -4,8 +4,10 @@
     <integer name="splash_time_out">2000</integer>
 
     <integer name="max_audio_recording_time">30000</integer>
+    <integer name="min_audio_recording_time">500</integer>
     <integer name="audio_recording_delay">150</integer>
     <integer name="onscreen_text_time">1000</integer>
+    <integer name="vibration_duration">70</integer>
 
     <integer name="anim_disappear_duration">700</integer>
     <integer name="anim_scale_duration">300</integer>

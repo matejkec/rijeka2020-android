@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rma.voicerecorder.R;
 import com.rma.voicerecorder.utils.Timer;
@@ -42,11 +44,11 @@ public class RecordFragment extends Fragment{
 
     private VoiceRecorder voiceRecorder;
     private Timer timer;
-    private TextView recordStatus;
+    private TextView timerTV;
     private ImageButton recordButton;
 
     private int audioRecordingDelayMs;
-    private int onscreenTextTime;
+    private int vibrationDuarion;
     private static final int REQUEST_CODE = 100;
 
     public RecordFragment() {
@@ -68,13 +70,12 @@ public class RecordFragment extends Fragment{
 
         ImageButton listButton = view.findViewById(R.id.btn_record_list);
         recordButton = view.findViewById(R.id.btn_record);
-        recordStatus = view.findViewById(R.id.text_record_status);
 
-        int maxAudioRecordingTimeMs = getResources().getInteger(R.integer.max_audio_recording_time);
         audioRecordingDelayMs = getResources().getInteger(R.integer.audio_recording_delay);
-        onscreenTextTime = getResources().getInteger(R.integer.onscreen_text_time);
+        vibrationDuarion = getResources().getInteger(R.integer.vibration_duration);
 
-        TextView timerTV = view.findViewById(R.id.text_record_timer);
+        timerTV = view.findViewById(R.id.text_record_timer);
+        int maxAudioRecordingTimeMs = getResources().getInteger(R.integer.max_audio_recording_time);
         timer = new Timer(timerTV, maxAudioRecordingTimeMs);
         voiceRecorder = new VoiceRecorder(getActivity().getExternalFilesDir("/").getAbsolutePath(), maxAudioRecordingTimeMs);
 
@@ -115,21 +116,17 @@ public class RecordFragment extends Fragment{
     private Runnable delayedStart = new Runnable() {
         @Override
         public void run() {
-            if (!voiceRecorder.isRecording()) {
-                voiceRecorder.startRecording();
+            if (voiceRecorder.startRecording()) {
                 // timer start, button animation, update text
                 timer.freshStart();
-                recordStatus.setText(R.string.record_status_recording);
-                recordStatus.clearAnimation();
-                handler.removeCallbacks(recordStatusDisappear);
                 Animation scaleAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.scale);
                 scaleAnimation.reset();
                 recordButton.startAnimation(scaleAnimation);
                 // vibrate
                 if (Build.VERSION.SDK_INT >= 26) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                    vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuarion, VibrationEffect.DEFAULT_AMPLITUDE));
                 } else {
-                    vibrator.vibrate(100);
+                    vibrator.vibrate(vibrationDuarion);
                 }
             }
         }
@@ -138,13 +135,14 @@ public class RecordFragment extends Fragment{
     private void recordButtonReleased() {
         recordButton.setImageDrawable(getResources().getDrawable(R.drawable.record_btn_stopped, null));
         handler.removeCallbacks(delayedStart);
-        if (voiceRecorder.isRecording()) {
-            voiceRecorder.stopRecording();
-            timer.stop();
-            recordStatus.setText(R.string.record_status_file_saved);
-            handler.removeCallbacks(recordStatusDisappear);
-            handler.postDelayed(recordStatusDisappear, onscreenTextTime);
-            recordButton.clearAnimation();
+        recordButton.clearAnimation();
+        timer.stop();
+        if (timer.getTime() < 200){
+            voiceRecorder.stopAndDelete();
+        } else if (voiceRecorder.stopRecording()) {
+            Toast toast = Toast.makeText(getContext(),"Saved", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM,0,timerTV.getHeight() + recordButton.getHeight() + 20);
+            toast.show();
         }
     }
 
@@ -157,13 +155,11 @@ public class RecordFragment extends Fragment{
         }
     }
 
-    private Runnable recordStatusDisappear = new Runnable() {
-        @Override
-        public void run() {
-            Animation disappearAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.disappear);
-            disappearAnimation.reset();
-            recordStatus.clearAnimation();
-            recordStatus.startAnimation(disappearAnimation);
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(voiceRecorder.isRecording()){
+            recordButtonReleased();
         }
-    };
+    }
 }

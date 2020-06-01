@@ -142,14 +142,6 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if (mediaPlayer != null) {
-            stopAudio();
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_previous:
@@ -340,8 +332,16 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     }
 
     private void uploadAudioFiles(List<Integer> positions) {
-        String upLoadServerUri = "http://localhost:80/example/upload.php";
+        String uploadServerUri = "http://localhost:80/example/upload.php";
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mediaPlayer != null) {
+            stopAudio();
+        }
     }
 
     private class ActionModeCallback implements ActionMode.Callback {
@@ -382,8 +382,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
                             .show();
                     return true;
                 case R.id.menu_upload:
-                    uploadAudioFiles(new ArrayList<Integer>());
-                    // TODO: actually upload items
+                    uploadAudioFiles(audioListAdapter.getSelectedItems());
                     mode.finish();
                     return true;
                 case R.id.menu_select_all:

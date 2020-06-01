@@ -11,6 +11,10 @@
         android:id="@+id/text_record_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/listview_border"
         android:fontFamily="@font/open_sans_semibold"
         android:gravity="center"
         android:lineSpacingExtra="@dimen/dimen_line_spacing_extra"
@@ -21,7 +25,7 @@
         android:textSize="@dimen/dimen_record_text_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/image_record_rijeka_1" />
 
     <ImageView
         android:id="@+id/image_record_rijeka_1"
@@ -31,26 +35,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_record_info"
-        app:srcCompat="@drawable/rijeka_photo_1"/>
-
-    <TextView
-        android:id="@+id/text_record_status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/open_sans"
-        android:gravity="center"
-        android:text=""
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="@dimen/dimen_record_status_size"
-        android:textStyle="italic"
-        app:fontFamily="@font/open_sans_semibold"
-        app:layout_constraintBottom_toTopOf="@+id/text_record_timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_record_rijeka_1" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rijeka_photo_1" />
 
     <TextView
         android:id="@+id/text_record_timer"
@@ -67,22 +53,21 @@
 
     <ImageButton
         android:id="@+id/btn_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:background="@android:color/white"
-        android:scaleX="0.8"
-        android:scaleY="0.8"
+        android:layout_width="@dimen/dimen_record_btn_size"
+        android:layout_height="@dimen/dimen_record_btn_size"
+        android:layout_marginBottom="8dp"
+        android:background="@color/transparent"
+        android:scaleType="centerCrop"
         android:src="@drawable/record_btn_stopped"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_record_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@color/transparent"
         android:scaleX="1.15"
         android:scaleY="1.15"
         android:src="@drawable/recorder_list_btn"
