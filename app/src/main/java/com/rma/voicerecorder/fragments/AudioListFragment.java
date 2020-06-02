@@ -1,7 +1,9 @@
 package com.rma.voicerecorder.fragments;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +37,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.rma.voicerecorder.adapters.AudioListAdapter;
 import com.rma.voicerecorder.R;
 import com.rma.voicerecorder.models.VoiceRecord;
+import com.rma.voicerecorder.network.UploadToServer;
+import com.rma.voicerecorder.utils.LoadingDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +54,8 @@ import java.util.List;
 public class AudioListFragment extends Fragment implements AudioListAdapter.ItemClickListener, View.OnClickListener {
 
     private static final int NO_POSITION = -1;
+    private static final int REQUEST_CODE = 1000;
+    private final static String UPLOAD_SERVER_URI = "http://192.168.1.30:80/upload/upload.php";
 
     private BottomSheetBehavior bottomSheetBehavior;
     private RecyclerView audioListRecyclerView;
@@ -67,6 +74,8 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     private ActionMode actionMode;
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private MediaPlayer mediaPlayer;
+
+    private LoadingDialog loadingDialog;
 
     public AudioListFragment() {
         // Required empty public constructor
@@ -121,15 +130,17 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
         audioListRecyclerView.setAdapter(audioListAdapter);
         textNoContent = view.findViewById(R.id.text_no_content);
         textNoContent.setVisibility((audioListAdapter.getItemCount() != 0) ? View.INVISIBLE : View.VISIBLE);
+        loadingDialog = new LoadingDialog(getActivity());
 
         drawablePause = getActivity().getResources().getDrawable(R.drawable.player_pause_btn, null);
         drawablePlay = getActivity().getResources().getDrawable(R.drawable.player_play_btn, null);
+
 
         // Handling back button
         OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if(bottomSheetBehavior != null){
+                if (bottomSheetBehavior != null) {
                     if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                         return;
@@ -332,8 +343,53 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     }
 
     private void uploadAudioFiles(List<Integer> positions) {
-        String uploadServerUri = "http://localhost:80/example/upload.php";
+        if (!positions.isEmpty()) {
+            VoiceRecord voiceRecord = voiceRecords.get(positions.get(0));
+            File file = voiceRecord.getFile();
+            UploadToServer uploadToServer = new UploadToServer(UPLOAD_SERVER_URI, file);
+            uploadToServer.setNetworkOperationFinished(new UploadToServer.NetworkOperationFinished() {
+                @Override
+                public void onNetworkOperationFinished(String response) {
+                    if(response.equals(getString(R.string.html_successful))){
+                        Toast.makeText(getContext(), getString(R.string.msg_uploaded) + ": " + file.getName(), Toast.LENGTH_SHORT).show();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(file.getName(), "uploaded");
+                        editor.apply();
+                        voiceRecord.setStatus("uploaded");
+                        audioListAdapter.notifyItemChanged(positions.get(0), true);
+                        positions.remove(0);
+                        uploadAudioFiles(positions);
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.html_error) + " " + response, Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismissDialog();
+                        return;
+                    }
+                }
+            });
+            uploadToServer.execute();
+        } else {
+            loadingDialog.dismissDialog();
+        }
+    }
 
+    public List<Integer> filteredUploads(List<Integer> positions){
+        List<Integer> filtered = new ArrayList<>();
+        for (int i : positions){
+            if (!voiceRecords.get(i).getStatus().equals("uploaded")){
+                filtered.add(i);
+            }
+        }
+        return filtered;
+    }
+
+
+    private boolean checkPermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE);
+            return false;
+        }
     }
 
     @Override
@@ -382,7 +438,10 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
                             .show();
                     return true;
                 case R.id.menu_upload:
-                    uploadAudioFiles(audioListAdapter.getSelectedItems());
+                    if (checkPermission()) {
+                        loadingDialog.startLoadingDialog();
+                        uploadAudioFiles(filteredUploads(audioListAdapter.getSelectedItems()));
+                    }
                     mode.finish();
                     return true;
                 case R.id.menu_select_all:

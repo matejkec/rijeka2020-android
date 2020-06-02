@@ -3,9 +3,6 @@
     <string name="app_name" translatable="false">Rijeka 2020</string>
     <string name="msg_info">ECoC – European Capital of Culture, a coveted title and European cultural project that encompasses the renovation of cultural buildings and an extensive year-round cultural and art programme.</string>
 
-    <string name="record_status_recording">Recording</string>
-    <string name="record_status_file_saved">Saved</string>
-
     <string name="no_content">No content</string>
     <string name="mp_title" translatable="false">Media Player</string>
     <string name="mp_filename">File name</string>
@@ -18,5 +15,10 @@
     <string name="dialog_no">no</string>
     <string name="dialog_delete_msg">Are you sure you want to delete these files?</string>
     <string name="toast_deleted_msg">Deleted</string>
+    <string name="select_all">Select all</string>
+    <string name="msg_uploaded">Uploaded</string>
+    <string name="please_wait">Please wait</string>
+    <string name="html_successful">200</string>
+    <string name="html_error">Error"</string>
 
 </resources>

@@ -6,5 +6,4 @@
     <dimen name="dimen_line_spacing_extra">5sp</dimen>
     <dimen name="dimen_timer_size">36sp</dimen>
     <dimen name="dimen_record_btn_size">100dp</dimen>
-    <dimen name="dimen_record_status_size">16sp</dimen>
 </resources>

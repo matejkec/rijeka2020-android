@@ -17,14 +17,14 @@ public class VoiceRecorder {
     private String recordPath;
     private int maxDuration;
 
-    public VoiceRecorder(String recordPath, int maxDuration){
+    public VoiceRecorder(String recordPath, int maxDuration) {
         this.recordPath = recordPath;
         this.maxDuration = maxDuration;
         simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
     }
 
     public boolean startRecording() {
-        if(!isRecording){
+        if (!isRecording) {
             // file name
             Date dateNow = new Date();
             recordFileName = "REC_" + simpleDateFormat.format(dateNow) + ".3gp";
@@ -72,14 +72,14 @@ public class VoiceRecorder {
     }
 
     public boolean stopAndDelete() {
-        if(stopRecording()){
+        if (stopRecording()) {
             new File(recordPath + "/" + recordFileName).delete();
             return true;
         }
         return false;
     }
 
-    public boolean isRecording(){
+    public boolean isRecording() {
         return isRecording;
     }
 

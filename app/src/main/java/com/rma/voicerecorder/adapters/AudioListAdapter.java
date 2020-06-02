@@ -52,7 +52,7 @@ public class AudioListAdapter extends SelectableAdapter<AudioListAdapter.AudioVi
                 holder.listStatusImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_done_all));
                 break;
             case "uploaded":
-                holder.listStatusImage.setImageDrawable(context.getResources().getDrawable(R.drawable.cloud_done));
+                holder.listStatusImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_cloud_done));
                 break;
             default:
                 holder.listStatusImage.setImageDrawable(null);
@@ -75,7 +75,7 @@ public class AudioListAdapter extends SelectableAdapter<AudioListAdapter.AudioVi
                     holder.listStatusImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_done_all));
                     break;
                 case "uploaded":
-                    holder.listStatusImage.setImageDrawable(context.getResources().getDrawable(R.drawable.cloud_done));
+                    holder.listStatusImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_cloud_done));
                     break;
                 default:
                     holder.listStatusImage.setImageDrawable(null);
@@ -172,6 +172,7 @@ public class AudioListAdapter extends SelectableAdapter<AudioListAdapter.AudioVi
 
     public interface ItemClickListener {
         void onItemClicked(VoiceRecord voiceRecord, int position);
+
         boolean onItemLongClicked(int position);
     }
 }

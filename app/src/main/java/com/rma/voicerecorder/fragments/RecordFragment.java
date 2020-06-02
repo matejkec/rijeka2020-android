@@ -48,7 +48,7 @@ public class RecordFragment extends Fragment{
     private ImageButton recordButton;
 
     private int audioRecordingDelayMs;
-    private int vibrationDuarion;
+    private int vibrationDuration;
     private static final int REQUEST_CODE = 100;
 
     public RecordFragment() {
@@ -72,7 +72,7 @@ public class RecordFragment extends Fragment{
         recordButton = view.findViewById(R.id.btn_record);
 
         audioRecordingDelayMs = getResources().getInteger(R.integer.audio_recording_delay);
-        vibrationDuarion = getResources().getInteger(R.integer.vibration_duration);
+        vibrationDuration = getResources().getInteger(R.integer.vibration_duration);
 
         timerTV = view.findViewById(R.id.text_record_timer);
         int maxAudioRecordingTimeMs = getResources().getInteger(R.integer.max_audio_recording_time);
@@ -124,9 +124,9 @@ public class RecordFragment extends Fragment{
                 recordButton.startAnimation(scaleAnimation);
                 // vibrate
                 if (Build.VERSION.SDK_INT >= 26) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuarion, VibrationEffect.DEFAULT_AMPLITUDE));
+                    vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE));
                 } else {
-                    vibrator.vibrate(vibrationDuarion);
+                    vibrator.vibrate(vibrationDuration);
                 }
             }
         }

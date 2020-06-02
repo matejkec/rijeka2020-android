@@ -28,10 +28,10 @@ public class TimeAgo {
         }
 
         if (s < 60) {
-            if (language == "hr") return "upravo sada";
+            if (language.equals("hr")) return "upravo sada";
             else return "just now";
         } else if (m >= 1 && m < 60) {
-            if (language == "hr") return "prije " + m + " min";
+            if (language.equals("hr")) return "prije " + m + " min";
             else return m + " minutes ago";
         } else if (isToday) {
             return timeFormat.format(duration);
