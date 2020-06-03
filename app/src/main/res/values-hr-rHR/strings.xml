@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="msg_info">EPK – Europska prijestolnica kulture, ugledna je titula i europski kulturni projekt koji u Rijeci uključuje obnovu zgrada kulture i bogat cjelogodišnji kulturno umjetnički program</string>
-    <string name="no_content">Nema sadržaja</string>
+    <string name="msg_no_content">Nema sadržaja</string>
     <string name="mp_filename">Naziv datoteke</string>
     <string name="mp_not_playing">Ne reproducira se</string>
     <string name="mp_playing">Reproducira se</string>
@@ -11,9 +11,9 @@
     <string name="dialog_no">ne</string>
     <string name="toast_deleted_msg">Obrisano</string>
     <string name="dialog_delete_msg">Jeste li sigurni da želite izbrisati ove datoteke?</string>
-    <string name="select_all">Odaberi sve</string>
-    <string name="msg_uploaded">Preneseno</string>
-    <string name="please_wait">Molimo pričekajte</string>
-    <string name="html_successful">200</string>
-    <string name="html_error">Greška</string>
+    <string name="menu_select_all">Odaberi sve</string>
+    <string name="msg_uploaded">Uspješno preneseno</string>
+    <string name="msg_error">Dogodila se greška</string>
+    <string name="msg_please_wait">Molimo pričekajte</string>
+    <string name="html_code_successful">200</string>
 </resources>

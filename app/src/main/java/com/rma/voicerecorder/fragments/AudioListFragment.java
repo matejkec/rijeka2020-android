@@ -350,7 +350,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
             uploadToServer.setNetworkOperationFinished(new UploadToServer.NetworkOperationFinished() {
                 @Override
                 public void onNetworkOperationFinished(String response) {
-                    if(response.equals(getString(R.string.html_successful))){
+                    if(response.equals(getString(R.string.html_code_successful))){
                         Toast.makeText(getContext(), getString(R.string.msg_uploaded) + ": " + file.getName(), Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(file.getName(), "uploaded");
@@ -360,7 +360,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
                         positions.remove(0);
                         uploadAudioFiles(positions);
                     } else {
-                        Toast.makeText(getContext(), getString(R.string.html_error) + " " + response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.msg_error), Toast.LENGTH_SHORT).show();
                         loadingDialog.dismissDialog();
                         return;
                     }

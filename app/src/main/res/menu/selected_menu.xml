@@ -15,7 +15,7 @@
     <item
         android:id="@+id/menu_select_all"
         android:icon="@drawable/ic_stat_check_box"
-        android:title="@string/select_all"
+        android:title="@string/menu_select_all"
         app:showAsAction="never" />
 
 </menu>
