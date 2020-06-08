@@ -20,5 +20,6 @@
     <string name="msg_error">An error has occurred."</string>
     <string name="msg_please_wait">Please wait</string>
     <string name="html_code_successful">200</string>
+    <string name="toast_saved_msg">Saved</string>
 
 </resources>

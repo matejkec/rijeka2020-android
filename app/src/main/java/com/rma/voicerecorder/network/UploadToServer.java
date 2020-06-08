@@ -1,8 +1,9 @@
 package com.rma.voicerecorder.network;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+//import org.json.JSONObject;
 
 import java.io.File;
 
@@ -77,9 +78,17 @@ public class UploadToServer extends AsyncTask<Void, Void, Void>{
             // Generiranje tijela zahtjeva (payload):
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("uploaded_file", file.getName(),
+                    .addFormDataPart("audioFile", file.getName(),
                             RequestBody.create(file, MEDIA_TYPE))
                     .build();
+
+/*            final MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+            JSONObject json = new JSONObject();
+            json.put("Label", "Label");
+            json.put("AudioCaption", "Caption");
+            json.put("AudioDescription", "Desc");
+            json.put("AudioFile", "");*/
 
             // Generiranje zahtjeva:
             Request request = new Request.Builder()

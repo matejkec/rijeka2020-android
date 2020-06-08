@@ -27,11 +27,11 @@ public class VoiceRecorder {
         if (!isRecording) {
             // file name
             Date dateNow = new Date();
-            recordFileName = "REC_" + simpleDateFormat.format(dateNow) + ".3gp";
+            recordFileName = "REC_" + simpleDateFormat.format(dateNow) + ".m4a";
             // media recorder start
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mediaRecorder.setOutputFile(recordPath + "/" + recordFileName);
             mediaRecorder.setMaxDuration(maxDuration);

@@ -15,6 +15,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue 'string', 'serverUrl', '"https://TODO"'
+        }
+        debug {
+            resValue 'string', 'serverUrl', uploadUrl
         }
     }
     // Configure only for each module that uses Java 8
@@ -48,5 +52,4 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.7.2") {
         exclude group: "org.jetbrains", module: "annotations"
     }
-
 }
