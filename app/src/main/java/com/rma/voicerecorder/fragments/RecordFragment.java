@@ -50,6 +50,7 @@ public class RecordFragment extends Fragment{
     private int audioRecordingDelayMs;
     private int vibrationDuration;
     private static final int REQUEST_CODE = 100;
+    private Toast toast;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -140,10 +141,17 @@ public class RecordFragment extends Fragment{
         if (timer.getTime() < 200){
             voiceRecorder.stopAndDelete();
         } else if (voiceRecorder.stopRecording()) {
-            Toast toast = Toast.makeText(getContext(),"Saved", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM,0,timerTV.getHeight() + recordButton.getHeight() + 20);
-            toast.show();
+            showToast(getString(R.string.toast_saved_msg));
         }
+    }
+
+    protected void showToast(final String text) {
+        if (toast == null) {
+            toast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, timerTV.getHeight() + recordButton.getHeight() + 20);
+        } else
+            toast.setText(text);
+        toast.show();
     }
 
     private boolean checkPermission() {
@@ -161,5 +169,7 @@ public class RecordFragment extends Fragment{
         if(voiceRecorder.isRecording()){
             recordButtonReleased();
         }
+        if(toast != null)
+            toast.cancel();
     }
 }

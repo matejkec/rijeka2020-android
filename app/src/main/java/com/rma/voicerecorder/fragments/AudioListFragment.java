@@ -55,7 +55,6 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
 
     private static final int NO_POSITION = -1;
     private static final int REQUEST_CODE = 1000;
-    private final static String UPLOAD_SERVER_URI = "http://192.168.1.30:80/upload/upload.php";
 
     private BottomSheetBehavior bottomSheetBehavior;
     private RecyclerView audioListRecyclerView;
@@ -76,6 +75,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
     private MediaPlayer mediaPlayer;
 
     private LoadingDialog loadingDialog;
+    private Toast toast;
 
     public AudioListFragment() {
         // Required empty public constructor
@@ -346,12 +346,12 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
         if (!positions.isEmpty()) {
             VoiceRecord voiceRecord = voiceRecords.get(positions.get(0));
             File file = voiceRecord.getFile();
-            UploadToServer uploadToServer = new UploadToServer(UPLOAD_SERVER_URI, file);
+            UploadToServer uploadToServer = new UploadToServer(getString(R.string.serverUrl), file);
             uploadToServer.setNetworkOperationFinished(new UploadToServer.NetworkOperationFinished() {
                 @Override
                 public void onNetworkOperationFinished(String response) {
                     if(response.equals(getString(R.string.html_code_successful))){
-                        Toast.makeText(getContext(), getString(R.string.msg_uploaded) + ": " + file.getName(), Toast.LENGTH_SHORT).show();
+                        showToast(getString(R.string.msg_uploaded) + ": " + file.getName());
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(file.getName(), "uploaded");
                         editor.apply();
@@ -360,7 +360,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
                         positions.remove(0);
                         uploadAudioFiles(positions);
                     } else {
-                        Toast.makeText(getContext(), getString(R.string.msg_error), Toast.LENGTH_SHORT).show();
+                        showToast(getString(R.string.msg_error));
                         loadingDialog.dismissDialog();
                         return;
                     }
@@ -372,6 +372,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
         }
     }
 
+
     public List<Integer> filteredUploads(List<Integer> positions){
         List<Integer> filtered = new ArrayList<>();
         for (int i : positions){
@@ -382,6 +383,13 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
         return filtered;
     }
 
+    protected void showToast(final String text) {
+        if (toast == null) {
+            toast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
+        } else
+            toast.setText(text);
+        toast.show();
+    }
 
     private boolean checkPermission() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -398,6 +406,13 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
         if (mediaPlayer != null) {
             stopAudio();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(toast != null)
+            toast.cancel();
     }
 
     private class ActionModeCallback implements ActionMode.Callback {
@@ -431,7 +446,7 @@ public class AudioListFragment extends Fragment implements AudioListAdapter.Item
                                         stopAudio();
                                     }
                                     deleteAudioFiles(audioListAdapter.getSelectedItems());
-                                    Toast.makeText(getContext(), getResources().getString(R.string.toast_deleted_msg), Toast.LENGTH_SHORT).show();
+                                    showToast(getResources().getString(R.string.toast_deleted_msg));
                                     mode.finish();
                                 }
                             })

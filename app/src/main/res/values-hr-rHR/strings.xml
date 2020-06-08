@@ -16,4 +16,5 @@
     <string name="msg_error">Dogodila se greška</string>
     <string name="msg_please_wait">Molimo pričekajte</string>
     <string name="html_code_successful">200</string>
+    <string name="toast_saved_msg">Spremljeno</string>
 </resources>
